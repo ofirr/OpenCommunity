@@ -1,19 +1,27 @@
 import datetime
 from haystack import indexes
-from isues.models import Issue, Proposal
+from issues.models import Issue, IssueComment, Proposal
 
 
 class IssueIndex(indexes.ModelSearchIndex, indexes.Indexable):
     class Meta:
         model = Issue
         fields = ['title', 'abstract']
-    #IssueComment
 
     # Note that regular ``SearchIndex`` methods apply.
     def index_queryset(self, using=None):
         "Used when the entire index for model is updated."
         return Issue.objects.all()
 
+class IssueCommentIndex(indexes.ModelSearchIndex, indexes.Indexable):
+    class Meta:
+        model = IssueComment
+        fields = ['content']
+
+    # Note that regular ``SearchIndex`` methods apply.
+#    def index_queryset(self, using=None):
+#        "Used when the entire index for model is updated."
+#        return IssueComment.objects.all()
 
 class ProposalIndex(indexes.ModelSearchIndex, indexes.Indexable):
     class Meta:
@@ -21,6 +29,6 @@ class ProposalIndex(indexes.ModelSearchIndex, indexes.Indexable):
         fields = ['title', 'content']
 
     # Note that regular ``SearchIndex`` methods apply.
-    def index_queryset(self, using=None):
-        "Used when the entire index for model is updated."
-        return Issue.objects.all()
+#    def index_queryset(self, using=None):
+#        "Used when the entire index for model is updated."
+#        return Proposal.objects.all()

@@ -57,4 +57,6 @@ urlpatterns = patterns('',
     url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog',
         {'packages': ('issues', 'communities',)}, 'jsi18n'),
 
+    #haystack search
+    url(r'^search/', include('haystack.urls')),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
