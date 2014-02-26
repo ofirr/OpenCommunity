@@ -38,5 +38,5 @@ urlpatterns = patterns('',
         views.ProtocolDraftPreviewView.as_view(),
         name='preview_ongoing_protocol'),
 
-  
+    url(r'^search/$', views.CommunitySearchView(), name='community_search'),
 )

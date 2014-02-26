@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse_lazy, reverse
 from django.db.models.aggregates import Max
 from django.http.response import HttpResponse, HttpResponseBadRequest, \
     HttpResponseRedirect
-from django.shortcuts import render, redirect, render_to_response
+from django.shortcuts import render, redirect, render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.template.loader import render_to_string
 from django.utils import timezone
@@ -21,11 +21,14 @@ from communities.forms import EditUpcomingMeetingForm, \
     PublishUpcomingMeetingForm, UpcomingMeetingParticipantsForm, \
     EditUpcomingMeetingSummaryForm
 from communities.models import SendToOption
+from haystack.query import SearchQuerySet
 from issues.models import IssueStatus, Issue
 from meetings.models import Meeting
 from ocd.base_views import ProtectedMixin, AjaxFormView
 from users.permissions import has_community_perm
 from django.views.generic.base import RedirectView
+from haystack.views import SearchView
+from ocd.base_views import CommunityMixin
 
 
 class CommunityList(ListView):
@@ -295,3 +298,11 @@ class About(RedirectView):
     
     permanent = False
     url = 'http://www.hasadna.org.il/projects/odc/'
+
+
+class CommunitySearchView(SearchView):
+    def __call__(self, request, pk):
+        self.community = get_object_or_404(models.Community, pk=pk)
+        self.searchqueryset = SearchQuerySet().filter(community=pk)
+        return super(CommunitySearchView, self).__call__(request)
+
