@@ -1,2 +1,0 @@
-{{ object.issue.title }}
-{{ object.content }}

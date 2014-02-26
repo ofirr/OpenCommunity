@@ -13,12 +13,12 @@ class IssueIndex(indexes.ModelSearchIndex, indexes.Indexable):
         "Used when the entire index for model is updated."
         return Issue.objects.all()
 
-class IssueCommentIndex(indexes.ModelSearchIndex, indexes.Indexable):
-    class Meta:
-        model = IssueComment
-        fields = ['content']
-
-    # Note that regular ``SearchIndex`` methods apply.
+#class IssueCommentIndex(indexes.ModelSearchIndex, indexes.Indexable):
+#    class Meta:
+#        model = IssueComment
+#        fields = ['content']
+#
+#    # Note that regular ``SearchIndex`` methods apply.
 #    def index_queryset(self, using=None):
 #        "Used when the entire index for model is updated."
 #        return IssueComment.objects.all()
