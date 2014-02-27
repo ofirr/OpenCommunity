@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
 
-{% load highlight %}
+{% load i18n highlight %}
 
 {% block extrahead %}
     <link href="{{ STATIC_URL }}search/results_page.css" rel="stylesheet">
 {% endblock %}
 
+{% block page_header %} {% trans "Search" %} {% endblock %}
+
 {% block content %}
-    <h2>Search</h2>
 
     <form method="get" action=".">
         <table>
@@ -21,15 +22,16 @@
         </table>
 
         {% if query %}
-            <h3>Results</h3>
+            <h3>{% trans "Results" %}</h3>
 
             {% for result in page.object_list %}
+                {{ result.verbose_name }}
                 <p>
                     <a href="{{ result.object.get_absolute_url }}">{% highlight result.title with query css_class "highlighted_result" html_tag "span" %}</a>
                 </p>
-                {% highlight result.text with query css_class "highlighted_result" html_tag "span" %}
+                {% highlight result.text with query css_class "highlighted_result" html_tag "div" %}
             {% empty %}
-                <p>No results found.</p>
+                <p>{% trans "No results found." %}</p>
             {% endfor %}
 
             {% if page.has_previous or page.has_next %}
