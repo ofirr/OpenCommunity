@@ -299,10 +299,35 @@ class About(RedirectView):
     permanent = False
     url = 'http://www.hasadna.org.il/projects/odc/'
 
+from communities.models import Community
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import redirect_to_login
+from django.http.response import HttpResponseForbidden, HttpResponse
+from django.shortcuts import get_object_or_404
+from django.utils.decorators import method_decorator
+from users.models import Membership
+from users.permissions import has_community_perm, get_community_perms
+import json
 
 class CommunitySearchView(SearchView):
     def __call__(self, request, pk):
         self.community = get_object_or_404(models.Community, pk=pk)
         self.searchqueryset = SearchQuerySet().filter(community=pk)
+
+        if not self.community.is_public:
+            if not request.user.is_authenticated():
+                return redirect_to_login(request.build_absolute_uri())
+            if not request.user.is_superuser:
+                try:
+                    m = request.user.memberships.get(community=self.community)
+                    pass
+                except Membership.DoesNotExist:
+                    return HttpResponseForbidden("403 Unauthorized")
+
         return super(CommunitySearchView, self).__call__(request)
 
+def search_view_factory(view_class=SearchView, *args, **kwargs):
+    def search_view(request, *a, **kw):
+        return view_class(*args, **kwargs)(request, *a, **kw)
+    return search_view
