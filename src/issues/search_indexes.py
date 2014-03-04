@@ -1,6 +1,5 @@
 from haystack import indexes
 from issues.models import Issue, IssueComment, Proposal
-from meetings.models import Meeting, AgendaItem
 from haystack.fields import IntegerField, BooleanField
 
 
@@ -41,27 +40,3 @@ class ProposalIndex(indexes.ModelSearchIndex, indexes.Indexable):
     def index_queryset(self, using=None):
         "Used when the entire index for model is updated."
         return Proposal.objects.all()
-
-
-class MeetingIndex(indexes.ModelSearchIndex, indexes.Indexable):
-    community = IntegerField(model_attr='community_id')
-    class Meta:
-        model = Meeting
-        fields = ['title', 'comments', 'summary']
-
-    # Note that regular ``SearchIndex`` methods apply.
-    def index_queryset(self, using=None):
-        "Used when the entire index for model is updated."
-        return Meeting.objects.all()
-
-
-class AgendaItemIndex(indexes.ModelSearchIndex, indexes.Indexable):
-    community = IntegerField(model_attr='meeting__community_id')
-    class Meta:
-        model = AgendaItem
-        fields = ['background']
-
-    # Note that regular ``SearchIndex`` methods apply.
-    def index_queryset(self, using=None):
-        "Used when the entire index for model is updated."
-        return AgendaItem.objects.all()

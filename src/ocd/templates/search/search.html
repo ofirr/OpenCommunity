@@ -29,7 +29,7 @@
                 <p>
                     <a href="{{ result.object.get_absolute_url }}">{% highlight result.title with query css_class "highlighted_result" html_tag "span" %}</a>
                 </p>
-                {% highlight result.text with query css_class "highlighted_result" html_tag "div" %}
+                {% highlight result.text with query css_class "highlighted_result" html_tag "span" %}
             {% empty %}
                 <p>{% trans "No results found." %}</p>
             {% endfor %}
