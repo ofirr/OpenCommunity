@@ -1,2 +1,15 @@
 {{ object.title }}
+
 {{ object.abstract }}
+
+{% for comment in object.comments.all %}
+    {% if not comment.is_open and comment.content %}
+        {{ comment.content }}
+    {% endif %}
+{% endfor %}
+
+{% for agenda_item in object.agenda_items.all %}
+    {% if not comment.is_open and comment.content %}
+        {{ agenda_item.background }}
+    {% endif %}
+{% endfor %}

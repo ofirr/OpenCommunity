@@ -1,5 +1,6 @@
 from communities import views
 from django.conf.urls import patterns, url
+from haystack.views import search_view_factory
 
 urlpatterns = patterns('',
 
@@ -38,5 +39,8 @@ urlpatterns = patterns('',
         views.ProtocolDraftPreviewView.as_view(),
         name='preview_ongoing_protocol'),
 
-    url(r'^search/$', views.CommunitySearchView(), name='community_search'),
+    url(r'^search/$', views.CommunitySearchView(), name='community_search'), #not thread safe
+#    url(r'^search/$', search_view_factory(
+#        view_class=views.CommunitySearchView
+#    ), name='community_search'),
 )
