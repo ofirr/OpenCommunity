@@ -1,15 +1,15 @@
 {{ object.title }}
 
-{{ object.abstract }}
+{{ object.abstract|striptags }}
 
 {% for comment in object.comments.all %}
     {% if not comment.is_open and comment.content %}
-        {{ comment.content }}
+        {{ comment.content|striptags }}
     {% endif %}
 {% endfor %}
 
 {% for agenda_item in object.agenda_items.all %}
     {% if not comment.is_open and comment.content %}
-        {{ agenda_item.background }}
+        {{ agenda_item.background|striptags }}
     {% endif %}
 {% endfor %}
