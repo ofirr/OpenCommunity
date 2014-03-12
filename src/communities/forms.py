@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from ocd.formfields import HTMLArea, OCSplitDateTime, OCCheckboxSelectMultiple
 from users.models import OCUser, Membership
 import floppyforms as forms
-from haystack.forms import SearchForm
+from haystack.forms import SearchForm, ModelSearchForm
 
 
 class EditUpcomingMeetingForm(forms.ModelForm):
@@ -127,7 +127,7 @@ class UpcomingMeetingParticipantsForm(forms.ModelForm):
         self.fields['upcoming_meeting_participants'].label = ""
         
 
-class CommunitySearchForm(SearchForm):
+class CommunitySearchForm(ModelSearchForm):
     pass
     # def search(self):
     #     # First, store the SearchQuerySet received from other processing.

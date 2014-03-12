@@ -1,6 +1,6 @@
-{{ object.title }}
+{% if object.title %}{{ object.title }}{% endif %}
 
-{{ object.abstract|striptags }}
+{% if object.abstract %}{{ object.abstract|striptags }}{% endif %}
 
 {% for comment in object.comments.all %}
     {% if not comment.is_open and comment.content %}

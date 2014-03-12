@@ -305,7 +305,7 @@ class About(RedirectView):
 
 
 class CommunitySearchView(SearchView):
-    def __call__(self, request, pk, model=):
+    def __call__(self, request, pk):
         self.community = get_object_or_404(models.Community, pk=pk)
         self.searchqueryset = SearchQuerySet().filter(community=pk)
         self.form_class = CommunitySearchForm
@@ -320,6 +320,8 @@ class CommunitySearchView(SearchView):
                     return HttpResponseForbidden("403 Unauthorized")
 
         return super(CommunitySearchView, self).__call__(request)
+    # def extra_context(self):
+        # return {}
 
 def search_view_factory(view_class=SearchView, *args, **kwargs):
     def search_view(request, *a, **kw):
