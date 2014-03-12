@@ -29,6 +29,10 @@ from users.permissions import has_community_perm
 from django.views.generic.base import RedirectView
 from haystack.views import SearchView
 from ocd.base_views import CommunityMixin
+from django.contrib.auth.views import redirect_to_login
+from django.http.response import HttpResponseForbidden, HttpResponse
+from users.models import Membership
+from forms import CommunitySearchForm
 
 
 class CommunityList(ListView):
@@ -299,22 +303,12 @@ class About(RedirectView):
     permanent = False
     url = 'http://www.hasadna.org.il/projects/odc/'
 
-from communities.models import Community
-from django.conf import settings
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import redirect_to_login
-from django.http.response import HttpResponseForbidden, HttpResponse
-from django.shortcuts import get_object_or_404
-from django.utils.decorators import method_decorator
-from users.models import Membership
-from users.permissions import has_community_perm, get_community_perms
-import json
 
 class CommunitySearchView(SearchView):
-    def __call__(self, request, pk):
+    def __call__(self, request, pk, model=):
         self.community = get_object_or_404(models.Community, pk=pk)
         self.searchqueryset = SearchQuerySet().filter(community=pk)
-
+        self.form_class = CommunitySearchForm
         if not self.community.is_public:
             if not request.user.is_authenticated():
                 return redirect_to_login(request.build_absolute_uri())

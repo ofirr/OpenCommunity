@@ -9,7 +9,6 @@
 {% block page_header %} {% trans "Search" %} {% endblock %}
 
 {% block content %}
-
     <form method="get" action=".">
         <table>
             {{ form.as_table }}
@@ -20,6 +19,12 @@
                 </td>
             </tr>
         </table>
+		
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#">{% trans "All" %}</a></li>
+  <li><a href="#">{% trans "Issues" %}</a></li>
+  <li><a href="#">{% trans "Proposals" %}</a></li>
+</ul>
 
         {% if query %}
             <h3>{% trans "Results" %}</h3>
