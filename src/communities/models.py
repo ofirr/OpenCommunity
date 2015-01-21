@@ -140,7 +140,7 @@ class Community(UIDMixin):
                 active=True, status__in=(l)).order_by(
                 'order_in_upcoming_meeting')
         else:
-            rv = None
+            rv = []
         return rv
 
     def available_issues(self, user=None, community=None):
@@ -150,7 +150,7 @@ class Community(UIDMixin):
                 active=True, status=issues_models.IssueStatus.OPEN).order_by(
                 '-created_at')
         else:
-            rv = None
+            rv = []
         return rv
 
     def available_issues_by_rank(self):
@@ -169,7 +169,7 @@ class Community(UIDMixin):
             ]
         )
         else:
-            rv = None
+            rv = []
         return rv
 
     def get_board_name(self):
